@@ -1,0 +1,6 @@
+[submodule "cryptobuyer-admin"]
+	path = cryptobuyer-admin
+	url = https://github.com/thecodeworkers/cryptobuyer-admin
+[submodule "cryptobuyer-web"]
+	path = cryptobuyer-web
+	url = https://github.com/thecodeworkers/cryptobuyer-web

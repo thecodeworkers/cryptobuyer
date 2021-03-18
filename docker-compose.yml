@@ -1,0 +1,54 @@
+version: "3.1"
+
+services:
+  cryptobuyer-web:
+    build: ./cryptobuyer-web
+    container_name: cryptobuyer-web
+    restart: unless-stopped
+    tty: true
+    volumes:
+      - ./cryptobuyer-web:/usr/local/app
+    ports:
+      - "3000:3000"
+    command: yarn dev
+    networks:
+      - app-network
+
+  cryptobuyer-admin:
+    image: wordpress
+    container_name: cryptobuyer-admin
+    restart: unless-stopped
+    ports:
+      - 8891:80
+    environment:
+      WORDPRESS_DB_HOST: cryptobuyer-db
+      WORDPRESS_DB_USER: buscao
+      WORDPRESS_DB_PASSWORD: buscao123
+      WORDPRESS_DB_NAME: buscao
+    volumes:
+      - ./cryptobuyer-admin:/var/www/html
+    networks:
+      - app-network
+
+  cryptobuyer-db:
+    image: mysql:5.7
+    container_name: cryptobuyer-db
+    restart: unless-stopped
+    ports:
+      - "3333:3306"
+    environment:
+      MYSQL_DATABASE: buscao
+      MYSQL_USER: buscao
+      MYSQL_PASSWORD: buscao123
+      MYSQL_RANDOM_ROOT_PASSWORD: "1"
+    volumes:
+      - ./cryptobuyer-db:/var/lib/mysql
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 200.0.1.1/24
