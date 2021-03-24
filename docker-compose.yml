@@ -22,6 +22,7 @@ services:
       WORDPRESS_DB_USER: buscao
       WORDPRESS_DB_PASSWORD: buscao123
       WORDPRESS_DB_NAME: buscao
+      WORDPRESS_FS_METHOD: direct
     volumes:
       - ./cryptobuyer-admin:/var/www/html
 
