@@ -7,16 +7,15 @@ services:
     volumes:
       - ./cryptobuyer-web:/usr/local/app
       - /usr/local/app/node_modules
-    ports:
-      - "3000:3000"
     command: yarn dev
+    networks:
+      cb-net:
+        ipv4_address: 210.10.10.20
 
   cryptobuyer-admin:
     image: wordpress
     container_name: cryptobuyer-admin
     restart: unless-stopped
-    ports:
-      - 8891:80
     environment:
       WORDPRESS_DB_HOST: cryptobuyer-db
       WORDPRESS_DB_USER: cryptobuyer
@@ -25,28 +24,35 @@ services:
       WORDPRESS_FS_METHOD: direct
     volumes:
       - ./cryptobuyer-admin:/var/www/html
+    networks:
+      cb-net:
+        ipv4_address: 210.10.10.21
 
   cryptobuyer-db:
     image: mysql:5.7
     container_name: cryptobuyer-db
     restart: unless-stopped
-    ports:
-      - "3333:3306"
     environment:
       MYSQL_DATABASE: cryptobuyer
-      MYSQL_USER: cryptobuyer
-      MYSQL_PASSWORD: cryptobuyer123
-      MYSQL_ROOT_PASSWORD: cryptobuyerdev
+      MYSQL_USER: crypto
+      MYSQL_PASSWORD: testing-cryptobuyer
+      MYSQL_RANDOM_ROOT_PASSWORD: "1"
     volumes:
       - ./cryptobuyer-db:/var/lib/mysql
+
   phpmyadmin:
     image: phpmyadmin
     restart: always
-    ports:
-      - 8100:80
     environment:
       - PMA_HOST=cryptobuyer-db
       - PMA_PORT=3306
-      - PMA_USER=cryptobuyer
-      - PMA_PASSWORD=cryptobuyer123
-      
+    networks:
+      cb-net:
+        ipv4_address: 210.10.10.22
+
+networks:
+  cb-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 210.10.10.1/24
