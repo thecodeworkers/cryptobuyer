@@ -1,7 +1,7 @@
 services:
-  cryptobuyer-web-test:
-    build: ./cryptobuyer-web-test
-    container_name: cryptobuyer-web-test
+  cryptobuyer-web:
+    build: ./cryptobuyer-web
+    container_name: cryptobuyer-web
     restart: unless-stopped
     tty: true
     volumes:
@@ -12,15 +12,15 @@ services:
       cb-net:
         ipv4_address: 210.10.10.20
 
-  cryptobuyer-admin-test:
+  cryptobuyer-admin:
     image: wordpress
-    container_name: cryptobuyer-admin-test
+    container_name: cryptobuyer-admin
     restart: unless-stopped
     environment:
-      WORDPRESS_DB_HOST: cryptobuyer-db-test
-      WORDPRESS_DB_USER: cryptobuyer-test
+      WORDPRESS_DB_HOST: cryptobuyer-db
+      WORDPRESS_DB_USER: cryptobuyer
       WORDPRESS_DB_PASSWORD: cryptobuyer123
-      WORDPRESS_DB_NAME: cryptobuyer-test
+      WORDPRESS_DB_NAME: cryptobuyer
       WORDPRESS_FS_METHOD: direct
     volumes:
       - ./cryptobuyer-admin:/var/www/html
@@ -28,23 +28,23 @@ services:
       cb-net:
         ipv4_address: 210.10.10.21
 
-  cryptobuyer-db-test:
+  cryptobuyer-db:
     image: mysql:5.7
-    container_name: cryptobuyer-db-test
+    container_name: cryptobuyer-db
     restart: unless-stopped
     environment:
-      MYSQL_DATABASE: cryptobuyer-test
-      MYSQL_USER: cryptobuyer-test
-      MYSQL_PASSWORD: cryptobuyer123
+      MYSQL_DATABASE: cryptobuyer
+      MYSQL_USER: crypto
+      MYSQL_PASSWORD: testing-cryptobuyer
       MYSQL_RANDOM_ROOT_PASSWORD: "1"
     volumes:
-      - ./cryptobuyer-db-test:/var/lib/mysql
+      - ./cryptobuyer-db:/var/lib/mysql
 
   phpmyadmin:
     image: phpmyadmin
     restart: always
     environment:
-      - PMA_HOST=cryptobuyer-db-test
+      - PMA_HOST=cryptobuyer-db
       - PMA_PORT=3306
     networks:
       cb-net:
