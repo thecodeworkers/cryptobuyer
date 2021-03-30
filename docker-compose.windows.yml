@@ -24,7 +24,7 @@ services:
       MYSQL_DATABASE: cryptobuyer
       MYSQL_USER: cryptobuyer
       MYSQL_PASSWORD: cryptobuyer123
-      MYSQL_RANDOM_ROOT_PASSWORD: "1"
+      MYSQL_ROOT_PASSWORD: cryptobuyerdev
     volumes:
       - ./cryptobuyer-db:/var/lib/mysql
   phpmyadmin:
