@@ -1,1 +1,0 @@
-cat cryptobuyer-dev.sql | docker exec -i cryptobuyer-db /usr/bin/mysql -u root --password=cryptobuyerdev cryptobuyer
